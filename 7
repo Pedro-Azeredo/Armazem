@@ -1,0 +1,147 @@
+--ex 1
+select max(preco)
+from produto
+
+--ex 2
+select min(qtd)
+from compras
+
+--ex 3
+select avg(qtd)
+from compras
+
+--ex 4
+select count(idcliente)
+from cliente
+where estado = 'Rio de Janeiro'
+
+--ex 5
+select avg(preco)
+from produto
+
+--ex 6
+select count(idcompra)
+from compras
+where idproduto in (1, 2, 3)
+
+--ex 7
+select count(idcompra)
+from compras
+where idloja = 5
+
+--ex 8
+select sum(preco) as soma
+from compras as com, produto as p, loja as l
+where p.idproduto = com.idproduto
+and l.idloja = com.idloja
+and l.uf = 'MG'
+
+--ex 9
+select count(qtd)
+from compras as com, produto as p
+where p.idproduto = com.idproduto
+and p.idproduto = 5
+
+--ex 10
+select sum(qtd)
+from compras
+
+--ex 11
+select estado, count(*) 
+from cliente 
+group by estado 
+
+--ex 12
+select uf, count(*) as lojas
+from loja
+group by uf
+order by count(*)
+
+--ex 13 
+select count(p.idproduto), m.nomemarca
+from produto as p, marca as m 
+where p.idmarca = m.idmarca
+group by m.idmarca
+order by count(*)
+
+--ex 14
+select count(idcompra), m.nomemarca
+from compras as c, marca as m, produto as p
+where m.idmarca = p.idmarca
+and p.idproduto = c.idproduto
+group by m.idmarca
+
+--ex 15
+select p.nomeproduto, round(avg(qtd), 2) 
+from compras as com, produto as p 
+where p.idproduto = com.idproduto
+group by (p.idproduto)
+
+--ex 16 
+select sum(com.qtd*p.preco), l.nomeloja
+from compras as com, produto as p, loja as l
+where p.idproduto = com.idproduto
+and l.idloja = com.idloja
+group by (l.nomeloja)
+
+--ex 17
+select sum(com.qtd), c.nomecliente
+from cliente as c, compras as com
+where c.idcliente = com.idcliente
+group by c.idcliente, c.nomecliente
+order by count(qtd) desc
+
+--ex 18 
+select count(*), cidade
+from cliente
+group by cidade
+order by count(*) desc
+limit 5
+
+--ex 19
+select p.nomeproduto, sum(qtd)
+from compras as c, produto as p
+where p.idproduto = c.idproduto
+group by p.nomeproduto
+
+--ex 20
+select c.nomecliente, sum(com.qtd * p.preco)
+from compras as com, produto as p, cliente as c
+where p.idproduto = com.idproduto
+and c.idcliente = com.idcliente
+group by c.idcliente
+order by sum(com.qtd * p.preco) desc
+limit 5
+
+--ex21 
+select estado, count(*) as cliente
+from cliente
+group by estado
+having count(*) > 50
+
+--ex22
+select m.nomemarca , sum(com.qtd * p.preco) as total
+from compras as com, marca as m, produto as p
+where m.idmarca = p.idmarca
+and p.idproduto = com.idproduto
+group by m.nomemarca
+having sum(com.qtd * p.preco) > 25000
+order by total desc
+
+--ex23
+select c.nomecliente, count(*) as total
+from cliente as c, compras as com
+where c.idcliente = com.idcliente
+group by c.idcliente
+having count(*) < 5
+order by total desc
+
+
+
+
+
+select * from loja
+select * from cliente
+select * from compras
+select * from marca
+select * from produto
